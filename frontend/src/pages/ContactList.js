@@ -20,7 +20,7 @@ const ContactList = () => {
   }, [state.contacts, searchKey]);
 
   return (
-    <div className="container pt-8 m-auto shadow-md px-4 py-8 bg-slate-100 sm:px-12">
+    <div className="container pt-8 m-auto shadow-md px-4 py-8 bg-slate-100 sm:px-12 min-h-screen">
       <p className="text-center font-bold text-2xl mb-10">Phone Book App</p>
       <div className="flex justify-between items-center mb-10">
         <p className="font-bold text-xl">Contacts</p>

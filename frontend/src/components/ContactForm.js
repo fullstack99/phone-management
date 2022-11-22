@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import InputMask from "react-input-mask";
@@ -31,6 +31,11 @@ const ContactForm = ({ label, initialValues, onSubmit }) => {
       formik.setValues(initialValues);
     }
   }, [initialValues]);
+  const disabled = useMemo(() => {
+    const { firstName, lastName, phoneNum } = formik.values;
+    if (firstName && lastName && phoneNum.trim().length === 12) return false;
+    return true;
+  }, [formik.values]);
 
   return (
     <div className="form-wrapper">
@@ -89,6 +94,7 @@ const ContactForm = ({ label, initialValues, onSubmit }) => {
               mask="999-999-9999"
               placeholder="Phone Number"
               {...formik.getFieldProps("phoneNum")}
+              maskChar=" "
             />
             {formik.touched.phoneNum && formik.errors.phoneNum && (
               <div className="text-red-600 text-xs mt-1">
@@ -99,7 +105,12 @@ const ContactForm = ({ label, initialValues, onSubmit }) => {
           <button
             type="submit"
             className="btn bg-green-600 text-white rounded-lg hover:bg-green-400 px-4 py-2 w-full disabled:bg-slate-300"
-            disabled={formik.isSubmitting || !formik.isValid || !formik.touched}
+            disabled={
+              formik.isSubmitting ||
+              !formik.isValid ||
+              !formik.touched ||
+              disabled
+            }
           >
             Submit
           </button>

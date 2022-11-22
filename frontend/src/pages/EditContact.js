@@ -24,8 +24,8 @@ const EditContact = () => {
     phoneNum: "",
   });
 
-  const onSubmit = (contactInfo) => {
-    updateContact({
+  const onSubmit = async (contactInfo) => {
+    await updateContact({
       data: {
         firstName: contactInfo.firstName,
         lastName: contactInfo.lastName,
@@ -33,6 +33,7 @@ const EditContact = () => {
       },
       id: contactInfo._id,
     });
+    navigate("/");
   };
 
   return (

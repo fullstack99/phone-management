@@ -6,16 +6,13 @@ import { Context as ContactContext } from "../context/ContactContext";
 import ContactForm from "../components/ContactForm";
 
 const CreateContact = () => {
-  const { createContact, state } = useContext(ContactContext);
+  const { createContact } = useContext(ContactContext);
   const navigate = useNavigate();
 
-  const onSubmit = (contactInfo) => {
-    createContact(contactInfo);
+  const onSubmit = async (contactInfo) => {
+    await createContact(contactInfo);
+    navigate("/");
   };
-
-  useEffect(() => {
-    console.log(111, state.loading);
-  }, [state.loading]);
 
   return (
     <div className="container m-auto mt-10 flex justify-center">
