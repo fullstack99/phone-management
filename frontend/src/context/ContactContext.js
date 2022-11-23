@@ -52,7 +52,7 @@ const getContacts = (dispatch) => async () => {
 };
 
 const deleteContact = (dispatch) => async (id) => {
-  const path = `${BASE_API}contact/${id}`;
+  const path = `${BASE_API}contacts/${id}`;
   try {
     dispatch({
       type: SET_ERROR,
@@ -77,7 +77,7 @@ const deleteContact = (dispatch) => async (id) => {
 const updateContact =
   (dispatch) =>
   async ({ id, data }) => {
-    const path = `${BASE_API}contact/${id}`;
+    const path = `${BASE_API}contacts/${id}`;
     try {
       dispatch({
         type: SET_ERROR,
@@ -100,7 +100,7 @@ const updateContact =
   };
 
 const createContact = (dispatch) => async (info) => {
-  const path = `${BASE_API}contact`;
+  const path = `${BASE_API}contacts`;
   try {
     dispatch({
       type: SET_ERROR,
@@ -139,7 +139,7 @@ const reducer = (state, action) => {
     case CREATE_CONTACT_LIST: {
       return {
         ...state,
-        contacts: [...state.contacts].concat(action.payload),
+        contacts: [...state.contacts, action.payload],
         loaded: true,
       };
     }
@@ -147,13 +147,13 @@ const reducer = (state, action) => {
     case DELETE_CONTACT_LIST:
       return {
         ...state,
-        contacts: [...state.contacts].filter((v) => v._id !== action.payload),
+        contacts: state.contacts.filter((v) => v._id !== action.payload),
         loaded: true,
       };
     case UPDATE_CONTACT_LIST:
       return {
         ...state,
-        contacts: [...state.contacts].map((v) => {
+        contacts: state.contacts.map((v) => {
           if (v._id === action.payload.id) {
             return {
               id: v._id,

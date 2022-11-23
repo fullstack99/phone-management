@@ -9,10 +9,10 @@ const {
   getContact,
 } = require("../controllers/contact");
 
-router.post("/contact", createContact);
+router.post("/contacts", createContact);
 router.get("/contacts", getContacts);
-router.get("/contact/:id", getContact);
-router.put("/contact/:id", updateContact);
-router.delete("/contact/:id", deleteContact);
+router.get("/contacts/:id", getContact);
+router.put("/contacts/:id", updateContact);
+router.delete("/contacts/:id", deleteContact);
 
 module.exports = router;

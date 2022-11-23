@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const dbConfig = require("./database/db");
-const contactRoute = require("../backend/routes/contact");
+const contactRoute = require("./routes/contact");
 
 mongoose.Promise = global.Promise;
 mongoose

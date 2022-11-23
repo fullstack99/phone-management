@@ -10,11 +10,9 @@ function App() {
     <ContactContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route element={<Outlet />}>
-            <Route exact path="/" element={<ContactList />} />
-            <Route path="/create" element={<CreateContact />} />
-            <Route path="/edit/:id" element={<EditContact />} />
-          </Route>
+          <Route exact path="/" element={<ContactList />} />
+          <Route path="/create" element={<CreateContact />} />
+          <Route path="/edit/:id" element={<EditContact />} />
         </Routes>
       </BrowserRouter>
     </ContactContextProvider>

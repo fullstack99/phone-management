@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 
 // context function for whole app state management
-export default (reducer, actions, defaultValue) => {
+const CreateDataContext = (reducer, actions, defaultValue) => {
   const Context = React.createContext();
 
   // provider component wrapping all components
@@ -26,3 +26,5 @@ export default (reducer, actions, defaultValue) => {
   // return context and provider
   return { Context, Provider };
 };
+
+export default CreateDataContext;
