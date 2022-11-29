@@ -60,7 +60,7 @@ const deleteContact = async (req, res, next) => {
     if (deleted) {
       return res
         .status(204)
-        .json({ message: "Contact deleted", succeess: true });
+        .json({ message: "Contact deleted", success: true });
     }
     throw new Error("Contact not found");
   } catch (err) {
