@@ -154,7 +154,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         contacts: state.contacts.map((v) =>
-          v._id === action.payload.id ? action.payload.data : v
+          v.id === action.payload.id ? action.payload.data : v
         ),
         loaded: true,
       };

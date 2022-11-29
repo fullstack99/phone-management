@@ -37,7 +37,7 @@ const ContactList = () => {
       {contacts.length > 0 ? (
         <div className="divide-y rounded-lg border border-gray-300">
           {contacts.map((contact) => (
-            <ContactRow contact={contact} key={contact._id} />
+            <ContactRow contact={contact} key={contact.id} />
           ))}
         </div>
       ) : (
