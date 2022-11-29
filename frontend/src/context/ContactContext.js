@@ -39,7 +39,7 @@ const getContacts = (dispatch) => async () => {
     const { data } = await axios.get(path);
     dispatch({
       type: SET_CONTACT_LIST,
-      payload: data,
+      payload: data.contacts,
     });
   } catch (err) {
     dispatch({
@@ -76,7 +76,7 @@ const deleteContact = (dispatch) => async (id) => {
 
 const updateContact =
   (dispatch) =>
-  async ({ id, data }) => {
+  async ({ id, contact }) => {
     const path = `${BASE_API}contacts/${id}`;
     try {
       dispatch({
@@ -84,10 +84,10 @@ const updateContact =
         payload: null,
       });
       setLoading(dispatch, true);
-      await axios.put(path, data);
+      const { data } = await axios.put(path, contact);
       dispatch({
         type: UPDATE_CONTACT_LIST,
-        payload: { id, data },
+        payload: { data: data.contact },
       });
     } catch (err) {
       dispatch({
@@ -110,7 +110,7 @@ const createContact = (dispatch) => async (info) => {
     const { data } = await axios.post(path, info);
     dispatch({
       type: CREATE_CONTACT_LIST,
-      payload: data,
+      payload: data.contact,
     });
   } catch (err) {
     dispatch({
@@ -147,21 +147,15 @@ const reducer = (state, action) => {
     case DELETE_CONTACT_LIST:
       return {
         ...state,
-        contacts: state.contacts.filter((v) => v._id !== action.payload),
+        contacts: state.contacts.filter((v) => v.id !== action.payload),
         loaded: true,
       };
     case UPDATE_CONTACT_LIST:
       return {
         ...state,
-        contacts: state.contacts.map((v) => {
-          if (v._id === action.payload.id) {
-            return {
-              id: v._id,
-              ...action.payload.data,
-            };
-          }
-          return v;
-        }),
+        contacts: state.contacts.map((v) =>
+          v._id === action.payload.id ? action.payload.data : v
+        ),
         loaded: true,
       };
     case SET_ERROR:

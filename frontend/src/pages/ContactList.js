@@ -14,7 +14,9 @@ const ContactList = () => {
 
   const contacts = useMemo(() => {
     if (searchKey) {
-      return state.contacts.filter((v) => v.lastName.includes(searchKey));
+      return state.contacts.filter((v) =>
+        v.lastName.toLowerCase().includes(searchKey.toLowerCase())
+      );
     }
     return state.contacts;
   }, [state.contacts, searchKey]);

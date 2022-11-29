@@ -31,6 +31,7 @@ const ContactForm = ({ label, initialValues, onSubmit }) => {
       formik.setValues(initialValues);
     }
   }, [initialValues]);
+
   const disabled = useMemo(() => {
     const { firstName, lastName, phoneNum } = formik.values;
     if (firstName && lastName && phoneNum.trim().length === 12) return false;

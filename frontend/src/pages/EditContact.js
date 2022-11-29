@@ -13,7 +13,7 @@ const EditContact = () => {
 
   useEffect(() => {
     if (params?.id) {
-      const contact = state.contacts.find((v) => v._id === params.id);
+      const contact = state.contacts.find((v) => v.id === +params.id);
       setFormValues(contact);
     }
   }, [params, state]);
@@ -26,12 +26,12 @@ const EditContact = () => {
 
   const onSubmit = async (contactInfo) => {
     await updateContact({
-      data: {
+      contact: {
         firstName: contactInfo.firstName,
         lastName: contactInfo.lastName,
         phoneNum: contactInfo.phoneNum,
       },
-      id: contactInfo._id,
+      id: contactInfo.id,
     });
     navigate("/");
   };

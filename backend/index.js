@@ -1,25 +1,8 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const dbConfig = require("./database/db");
 const contactRoute = require("./routes/contact");
-
-mongoose.Promise = global.Promise;
-mongoose
-  .connect(dbConfig.db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(
-    () => {
-      console.log("Database successfully connected!");
-    },
-    (error) => {
-      console.log("Could not connect to database : " + error);
-    }
-  );
 
 const app = express();
 app.use(bodyParser.text({ type: "text/json" }));

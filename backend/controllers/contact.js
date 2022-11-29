@@ -1,68 +1,77 @@
-const mongoose = require("mongoose");
+const models = require("../models");
 
-const contactSchema = require("../models/Contact");
+const createContact = async (req, res, next) => {
+  try {
+    const contact = await models.ContactInfo.create(req.body);
+    return res.status(201).json({ contact });
+  } catch (err) {
+    return next(error);
+  }
+};
 
-exports.createContact = async (req, res, next) => {
-  contactSchema.create(req.body, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.json({
-        ...req.body,
-        _id: data._id,
+const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await models.ContactInfo.findAll();
+    return res.status(200).json({ contacts });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
+const getContactById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const contact = await models.ContactInfo.findOne({
+      where: { id },
+    });
+    if (contact) {
+      return res.status(200).json({ contact });
+    }
+    return res.status(404).send("Contact with the specified ID does not exist");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
+const updateContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const [updated] = await models.ContactInfo.update(req.body, {
+      where: { id },
+    });
+    if (updated) {
+      const updatedContact = await models.ContactInfo.findOne({
+        where: { id },
       });
+      return res.status(200).json({ contact: updatedContact });
     }
-  });
+    throw new Error("Contact not found");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 };
 
-exports.getContacts = async (req, res, next) => {
-  contactSchema.find((error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.json(data);
+const deleteContact = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const deleted = await models.ContactInfo.destroy({
+      where: { id },
+    });
+    if (deleted) {
+      return res
+        .status(204)
+        .json({ message: "Contact deleted", succeess: true });
     }
-  });
+    throw new Error("Contact not found");
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
 };
 
-exports.getContact = async (req, res, next) => {
-  contactSchema.findById(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.json(data);
-    }
-  });
-};
-
-exports.updateContact = async (req, res, next) => {
-  contactSchema.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: req.body,
-    },
-    (error, data) => {
-      if (error) {
-        return next(error);
-      } else {
-        res.status(200).json({
-          success: true,
-          message: "Contact updated successfully !",
-        });
-      }
-    }
-  );
-};
-
-exports.deleteContact = async (req, res, next) => {
-  contactSchema.findByIdAndRemove(req.params.id, (error, data) => {
-    if (error) {
-      return next(error);
-    } else {
-      res.status(200).json({
-        success: true,
-        message: "Contact deleted successfully !",
-      });
-    }
-  });
+module.exports = {
+  createContact,
+  getAllContacts,
+  getContactById,
+  updateContact,
+  deleteContact,
 };
